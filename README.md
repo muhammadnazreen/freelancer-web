@@ -1,4 +1,4 @@
-# Freelancer Directory Web Application
+# Freelancer Web Application
 
 This is a web application developed using ASP.NET Core and HTML to manage a directory of freelancers. The application allows users to register, view, update, and delete freelancer profiles.
 
