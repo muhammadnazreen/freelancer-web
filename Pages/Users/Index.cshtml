@@ -2,37 +2,75 @@
 @model freelancer.Pages.Users.IndexModel
 @{
 }
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function confirmDelete(id) {
+            console.log('Delete function called with ID:', id); // Debug statement to check if the function is being called
 
-<br />
-<h2>List of Freelancers</h2>
-<a class="btn btn-primary btn-sm" href="/Users/Register">New User</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone No</th>
-            <th>Skillsets</th>
-            @*<th>Created by</th>*@
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model.listUser)
-        {
-            <tr>
-                <td>@item.id</td>
-                <td>@item.name</td>
-                <td>@item.mail</td>
-                <td>@item.skillsets</td>
-                <td>@item.hobby</td>
-                @*<td>@item.udt</td>*@
-                <td>
-                    <a class="btn btn-primary btn-sm" href="/Users/Update?id=@item.id">Update</a>
-                    <a class="btn btn-danger btn-sm" href="/Users/Delete?id=@item.id">Delete</a>
-                </td>
-            </tr>
+            // Display a confirmation dialog using SweetAlert
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to delete the user. This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('User confirmed deletion'); // Debug statement to check if user confirmed deletion
+                    window.location.href = '/Users/Delete?id=' + id;
+                } else {
+                    console.log('User canceled deletion'); // Debug statement to check if user canceled deletion
+                }
+            });
         }
-    </tbody>
-</table>
+    </script>
+    </head>
+<body>
+    <br />
+    <h2>List of Freelancers</h2>
+    <a class="btn btn-primary btn-sm" href="/Users/Register">New User</a>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th>Skillsets</th>
+                <th>Hobby</th>
+                @*<th>Created by</th>*@
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.listUser)
+            {
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.name</td>
+                    <td>@item.mail</td>
+                    <td>@item.phone</td>
+                    <td>@item.skillsets</td>
+                    <td>@item.hobby</td>
+                    @*<td>@item.udt</td>*@
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/Users/Update?id=@item.id">Update</a>
+                        <a class="btn btn-danger btn-sm" onclick="confirmDelete(@item.id)">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+
+</html>
+
+
+
+

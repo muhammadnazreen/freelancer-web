@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace freelancer.Pages.Users
 {
@@ -45,6 +46,23 @@ namespace freelancer.Pages.Users
             }
         }
 
+        public bool validate(UserInfo x)
+        {
+            if (!Regex.IsMatch(x.mail, @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"))
+            {
+                errorMessage = "Invalid email address. Please enter a valid email address in the format \"example@example.com\"";
+                return false;
+            }
+
+            if (!Regex.IsMatch(x.phone, @"^(01[0-46-9]-\d{7,8}|011-\d{7,8}|01[2-9]-\d{7}|02\d-\d{7,8})$"))
+            {
+                errorMessage = "Invalid phone number. Please enter a valid Malaysian phone number in the format \"012-3456789\"";
+                return false;
+            }
+
+            return true;
+        }
+
         public void OnPost() {
             String id = Request.Query["id"];
             user.name = Request.Form["name"];
@@ -58,6 +76,8 @@ namespace freelancer.Pages.Users
                 errorMessage = "All the fields are required";
                 return;
             }
+
+            if (!validate(user)) return;
 
             // save the new user info into the database
             try

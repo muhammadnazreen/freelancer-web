@@ -22,4 +22,11 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.MapGet("/", context =>
+{
+    // Redirect to the desired page or controller action
+    context.Response.Redirect("/Users/Index");
+    return Task.CompletedTask;
+});
+
 app.Run();
