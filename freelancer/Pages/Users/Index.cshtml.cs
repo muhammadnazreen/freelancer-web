@@ -17,7 +17,7 @@ namespace freelancer.Pages.Users
                 using (SqlConnection connection = new SqlConnection(con))
                 {
                     connection.Open();
-                    String sql = "Select * from users offset 10 * (PageNo - 1) ROWS FETCH NEXT 10 Rows only";
+                    String sql = "Select * from users";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
